@@ -1,0 +1,38 @@
+---
+version: 2.1
+
+orbs:
+  python: circleci/python@2.0.3
+
+executors:
+  python-test:
+    docker:
+      - image: cimg/python:3.10
+    resource_class: small
+
+  python-build:
+    docker:
+      - image: cimg/python:3.10
+    resource_class: medium
+
+jobs:
+  test:
+    executor: python-test
+    steps:
+      - run: echo 'good to go!'
+  publish:
+    executor: python-build
+    steps:
+      - checkout
+      - python/dist
+      - run: pip install twine && twine upload dist/*
+
+workflows:
+  build:
+    jobs:
+      - test
+      - publish:
+          requires: [test]
+          filters:
+            branches:
+              only: main
