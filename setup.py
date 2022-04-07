@@ -14,7 +14,7 @@ setup(
     description='a terminal CLI / API for quick cross-timezone lookups',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://yage.io/python/tzfzf',
+    url='https://github.com/wrynegade/tzfzf',
     author=__author__,
     author_email='yage@yage.io',
     license='MIT',
