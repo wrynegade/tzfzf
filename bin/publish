@@ -1,0 +1,23 @@
+#!/bin/zsh
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+[[ $CURRENT_BRANCH =~ ^main$ ]] || {
+	echo "Must be on 'main' (not '$CURRENT_BRANCH')"
+	exit 1
+}
+
+git diff --name-only | grep -q . && {
+	echo "All changes must be committed!"
+	exit 2
+}
+
+VERSION=$(grep '__version__' ${0:a:h}/../tzfzf/__init__.py | sed "s/.*= '\\([^']*\)'.*$/\\1/")
+
+git tag | grep "^$VERSION$" && {
+	echo "Already published version '$VERSION'"
+	exit 3
+}
+
+git tag $VERSION \
+	&& git push \
+	&& git push --tags \
+	&& echo "Successfully triggered publish for '$VERSION'"

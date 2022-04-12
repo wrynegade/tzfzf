@@ -22,6 +22,7 @@ setup(
     install_requires=[
         'python-dateutil',
         'pytz',
+        'rich',
         ],
     classifiers=[
         'Programming Language :: Python :: 3 :: Only',
